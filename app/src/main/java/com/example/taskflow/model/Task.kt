@@ -4,5 +4,5 @@ data class Task (
     val id: Int,
     val taskTitle: String,
     val description: String,
-    val Completed: Boolean = false
+    val completed: Boolean = false
 )
