@@ -1,67 +1,71 @@
-package com.example.taskflow.navigation
+package com.example.taskflow.ui.navigation
+
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
-// Aquí definimos las rutas temporales de la app
-sealed class Screen(val route: String) {
-    object Splash : Screen("splash")
-    object TaskList : Screen("task_list")
-    object AddTask : Screen("add_task")
-    object EditTask : Screen("edit_task")
-}
 
 @Composable
 fun AppNavigation() {
 
-    val navController = rememberNavController()
+
+    val navController = rememberNavController()                         // Controlador que se encarga de manejar la navegación
 
     NavHost(
+
         navController = navController,
-        startDestination = Screen.Splash.route
+        startDestination = "splash"
+
     ) {
 
-        composable(Screen.Splash.route) {
-            // Después cambias PlaceholderSplashScreen por tu pantalla real
-            PlaceholderSplashScreen(
-                onFinish = {
-                    navController.navigate(Screen.TaskList.route) {
-                        popUpTo(Screen.Splash.route) {
-                            inclusive = true
-                        }
-                    }
+
+        composable("splash") {
+
+            // Pantalla SplashScreen
+            SplashScreen(
+                onGoToTaskList = {
+                    navController.navigate("taskList")
+
                 }
             )
         }
 
-        composable(Screen.TaskList.route) {
-            // Después cambias PlaceholderTaskListScreen por tu pantalla real
-            PlaceholderTaskListScreen(
-                onAddClick = {
-                    navController.navigate(Screen.AddTask.route)
+
+        composable("taskList") {
+
+            TaskListScreen(
+                onGoToAddTask = {
+                    navController.navigate("addTask")
                 },
-                onEditClick = {
-                    navController.navigate(Screen.EditTask.route)
+
+                onGoToEditTask = {
+                    navController.navigate("editTask")
+
                 }
             )
         }
 
-        composable(Screen.AddTask.route) {
-            // Después cambias PlaceholderAddTaskScreen por tu pantalla real
-            PlaceholderAddTaskScreen(
-                onBackClick = {
+        composable("addTask") {
+
+            AddTaskScreen(
+
+                // Regresar a la pantalla anterior
+                onBack = {
                     navController.popBackStack()
+
                 }
             )
         }
 
-        composable(Screen.EditTask.route) {
-            // Después cambias PlaceholderEditTaskScreen por tu pantalla real
-            PlaceholderEditTaskScreen(
-                onBackClick = {
+        composable("editTask") {
+
+            EditTaskScreen(
+                onBack = {
+
                     navController.popBackStack()
+
                 }
             )
         }
